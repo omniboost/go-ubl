@@ -19,8 +19,8 @@ type Invoice struct {
 	BuyerReference              string                 `xml:"cbc:BuyerReference,omitempty"`
 	OrderReference              string                 `xml:"cac:OrderReference>cbc:ID"`
 	AdditionalDocumentReference []xmlDocumentReference `xml:"cac:AdditionalDocumentReference"`
-	SupplierParty               xmlSupplierParty       `xml:"cac:AccountingSupplierParty"`
-	CustomerParty               xmlCustomerParty       `xml:"cac:AccountingCustomerParty"`
+	AccountingSupplierParty     xmlSupplierParty       `xml:"cac:AccountingSupplierParty"`
+	AccountingCustomerParty     xmlCustomerParty       `xml:"cac:AccountingCustomerParty"`
 	PaymentMeans                *xmlPaymentMeans       `xml:"cac:PaymentMeans,omitempty"`
 	PaymentTerms                *xmlPaymentTerms       `xml:"cac:PaymentTerms,omitempty"`
 	TaxTotal                    xmlTaxTotal            `xml:"cac:TaxTotal"`
@@ -68,7 +68,7 @@ type xmlParty struct {
 	PartyName struct {
 		Name string `xml:"cbc:Name"`
 	} `xml:"cac:PartyName"`
-	PostalAddress  xmlPostalAddress  `xml:"cac:PostalAddress"`
+	PostalAddress  xmlPostalAddress   `xml:"cac:PostalAddress"`
 	PartyTaxScheme *xmlPartyTaxScheme `xml:"cac:PartyTaxScheme,omitempty"`
 }
 
@@ -113,8 +113,8 @@ type xmlTaxTotal struct {
 }
 
 type xmlTaxSubtotal struct {
-	TaxableAmount xmlAmount      `xml:"cbc:TaxableAmount"`
-	TaxAmount     xmlAmount      `xml:"cbc:TaxAmount"`
+	TaxableAmount xmlAmount       `xml:"cbc:TaxableAmount"`
+	TaxAmount     xmlAmount       `xml:"cbc:TaxAmount"`
 	TaxCategory   *xmlTaxCategory `xml:"cac:TaxCategory,omitempty"`
 }
 
