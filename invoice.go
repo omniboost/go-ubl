@@ -61,7 +61,8 @@ type xmlSupplierParty struct {
 }
 
 type xmlCustomerParty struct {
-	Party xmlParty `xml:"cac:Party"`
+	SupplierAssignedAccountID string   `xml:"cbc:SupplierAssignedAccountID"`
+	Party                     xmlParty `xml:"cac:Party"`
 }
 
 type xmlParty struct {
@@ -70,6 +71,9 @@ type xmlParty struct {
 	} `xml:"cac:PartyName"`
 	PostalAddress  xmlPostalAddress   `xml:"cac:PostalAddress"`
 	PartyTaxScheme *xmlPartyTaxScheme `xml:"cac:PartyTaxScheme,omitempty"`
+	Contact        struct {
+		ElectronicMail string `xml:"cbc:ElectronicMail"`
+	} `xml:"cac:Contact,omitempty"`
 }
 
 type xmlPostalAddress struct {
