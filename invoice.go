@@ -119,6 +119,7 @@ type xmlTaxTotal struct {
 type xmlTaxSubtotal struct {
 	TaxableAmount xmlAmount       `xml:"cbc:TaxableAmount"`
 	TaxAmount     xmlAmount       `xml:"cbc:TaxAmount"`
+	Percent       float64         `xml:"cbc:Percent,omitempty"`
 	TaxCategory   *xmlTaxCategory `xml:"cac:TaxCategory,omitempty"`
 }
 
