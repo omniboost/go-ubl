@@ -93,17 +93,34 @@ type xmlCountry struct {
 }
 
 type xmlPaymentMeans struct {
-	PaymentMeansCode   int    `xml:"cbc:PaymentMeansCode"`
-	PaymentDueDate     string `xml:"cbc:PaymentDueDate"`
-	PaymentChannelCode string `xml:"cbc:PaymentChannelCode"`
+	PaymentMeansCode      *xmlPaymentMeansCode      `xml:"cbc:PaymentMeansCode,omitempty"`
+	PaymentID             string                    `xml:"cbc:PaymentID,omitempty"`
+	PayeeFinancialAccount *xmlPayeeFinancialAccount `xml:"cac:PayeeFinancialAccount,omitempty"`
+	PaymentMandate        *xmlPaymentMandate        `xml:"cac:PaymentMandate,omitempty"`
+	PaymentDueDate        string                    `xml:"cbc:PaymentDueDate,omitempty"`
 }
 
-type xmlFinancialAccount struct {
-	ID                         string                        `xml:"cbc:ID"`
-	FinancialInstitutionBranch xmlFinancialInstitutionBranch `xml:"cac:FinancialInstitutionBranch"`
+type xmlPaymentMeansCode struct {
+	Value int    `xml:",chardata"`
+	Name  string `xml:"name,attr"`
+}
+
+type xmlPayeeFinancialAccount struct {
+	ID                         string                         `xml:"cbc:ID"`
+	Name                       string                         `xml:"cbc:Name,omitempty"`
+	FinancialInstitutionBranch *xmlFinancialInstitutionBranch `xml:"cac:FinancialInstitutionBranch,omitempty"`
 }
 
 type xmlFinancialInstitutionBranch struct {
+	ID string `xml:"cbc:ID"`
+}
+
+type xmlPaymentMandate struct {
+	ID                    string                    `xml:"cbc:ID"`
+	PayerFinancialAccount *xmlPayerFinancialAccount `xml:"cac:PayerFinancialAccount,omitempty"`
+}
+
+type xmlPayerFinancialAccount struct {
 	ID string `xml:"cbc:ID"`
 }
 
@@ -119,7 +136,7 @@ type xmlTaxTotal struct {
 type xmlTaxSubtotal struct {
 	TaxableAmount xmlAmount       `xml:"cbc:TaxableAmount"`
 	TaxAmount     xmlAmount       `xml:"cbc:TaxAmount"`
-	Percent       *float64         `xml:"cbc:Percent,omitempty"`
+	Percent       *float64        `xml:"cbc:Percent,omitempty"`
 	TaxCategory   *xmlTaxCategory `xml:"cac:TaxCategory,omitempty"`
 }
 
@@ -160,7 +177,7 @@ type xmlItem struct {
 type xmlTaxCategory struct {
 	ID        string       `xml:"cbc:ID,omitempty"`
 	Name      string       `xml:"cbc:Name,omitempty"`
-	Percent   *float64      `xml:"cbc:Percent,omitempty"`
+	Percent   *float64     `xml:"cbc:Percent,omitempty"`
 	TaxScheme xmlTaxScheme `xml:"cac:TaxScheme,omitempty"`
 }
 
