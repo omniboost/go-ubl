@@ -61,21 +61,39 @@ type xmlSupplierParty struct {
 }
 
 type xmlCustomerParty struct {
-	SupplierAssignedAccountID string   `xml:"cbc:SupplierAssignedAccountID"`
-	Party                     xmlParty `xml:"cac:Party"`
+	Party xmlParty `xml:"cac:Party"`
 }
 
 type xmlParty struct {
-	PartyName struct {
+	EndpointID xmlPartyEndpointID `xml:"cbc:EndpointID,omitempty,omitzero"`
+	PartyName  struct {
 		Name string `xml:"cbc:Name"`
 	} `xml:"cac:PartyName"`
-	PostalAddress  xmlPostalAddress   `xml:"cac:PostalAddress"`
-	PartyTaxScheme *xmlPartyTaxScheme `xml:"cac:PartyTaxScheme,omitempty"`
-	Contact        *xmlPartyContact   `xml:"cac:Contact,omitempty,omitzero"`
+	PostalAddress    xmlPostalAddress     `xml:"cac:PostalAddress"`
+	PartyTaxScheme   *xmlPartyTaxScheme   `xml:"cac:PartyTaxScheme,omitempty"`
+	PartyLegalEntity *xmlPartyLegalEntity `xml:"cac:PartyLegalEntity,omitempty,omitzero"`
+	Contact          *xmlPartyContact     `xml:"cac:Contact,omitempty,omitzero"`
 }
 
 func (p xmlParty) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	return omitzero.MarshalXML(p, e, start)
+}
+
+type xmlPartyEndpointID struct {
+	SchemeID string `xml:"schemeID,attr"`
+	Value    string `xml:",chardata"`
+}
+
+func (e xmlPartyEndpointID) IsZero() bool {
+	return e.Value == ""
+}
+
+type xmlPartyLegalEntity struct {
+	RegistrationName string `xml:"cbc:RegistrationName,omitempty"`
+}
+
+func (e xmlPartyLegalEntity) IsZero() bool {
+	return e.RegistrationName == ""
 }
 
 type xmlPartyContact struct {
@@ -173,7 +191,6 @@ type xmlInvoiceLine struct {
 	ID                  string      `xml:"cbc:ID"`
 	InvoicedQuantity    xmlQuantity `xml:"cbc:InvoicedQuantity"`
 	LineExtensionAmount xmlAmount   `xml:"cbc:LineExtensionAmount"`
-	TaxTotal            xmlTaxTotal `xml:"cac:TaxTotal"`
 	Item                xmlItem     `xml:"cac:Item"`
 	Price               xmlPrice    `xml:"cac:Price"`
 }
