@@ -2,6 +2,8 @@ package ubl
 
 import (
 	"encoding/xml"
+
+	omitzero "github.com/omniboost/omitzero"
 )
 
 type Invoice struct {
@@ -35,9 +37,7 @@ func (i Invoice) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 		start.Attr = append(start.Attr, ns)
 	}
 
-	type alias Invoice
-	a := alias(i)
-	return e.EncodeElement(a, start)
+	return omitzero.MarshalXML(i, e, start)
 }
 
 type xmlDocumentReference struct {
@@ -71,9 +71,19 @@ type xmlParty struct {
 	} `xml:"cac:PartyName"`
 	PostalAddress  xmlPostalAddress   `xml:"cac:PostalAddress"`
 	PartyTaxScheme *xmlPartyTaxScheme `xml:"cac:PartyTaxScheme,omitempty"`
-	Contact        struct {
-		ElectronicMail string `xml:"cbc:ElectronicMail"`
-	} `xml:"cac:Contact,omitempty"`
+	Contact        *xmlPartyContact   `xml:"cac:Contact,omitempty,omitzero"`
+}
+
+func (p xmlParty) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	return omitzero.MarshalXML(p, e, start)
+}
+
+type xmlPartyContact struct {
+	ElectronicMail string `xml:"cbc:ElectronicMail,omitempty"`
+}
+
+func (c xmlPartyContact) IsZero() bool {
+	return c.ElectronicMail == ""
 }
 
 type xmlPostalAddress struct {

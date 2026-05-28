@@ -1,6 +1,10 @@
 package ubl
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+
+	omitzero "github.com/omniboost/omitzero"
+)
 
 type CreditNote struct {
 	XMLName xml.Name   `xml:"CreditNote"`
@@ -32,9 +36,7 @@ func (i CreditNote) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 		start.Attr = append(start.Attr, ns)
 	}
 
-	type alias CreditNote
-	a := alias(i)
-	return e.EncodeElement(a, start)
+	return omitzero.MarshalXML(i, e, start)
 }
 
 type xmlCreditNoteLine struct {
