@@ -89,7 +89,7 @@ func (c xmlPartyContact) IsZero() bool {
 type xmlPostalAddress struct {
 	StreetName string     `xml:"cbc:StreetName"`
 	CityName   string     `xml:"cbc:CityName"`
-	PostalZone string     `xml:"cbc:PostalZone"`
+	PostalZone string     `xml:"cbc:PostalZone,omitempty"`
 	Country    xmlCountry `xml:"cac:Country"`
 }
 
